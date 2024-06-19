@@ -27,7 +27,14 @@ app.get('/comunidade', async (req, res) => {
   const messages = await Message.findAll({ include: User });
   const userId = req.isAuthenticated() ? req.user.id : null;
 
-  res.send(`
+  const messagesHtml = messages.map(message => `
+    <div>
+      <strong>${message.User.username}:</strong> ${message.content}
+      ${userId === message.userId ? `<button onclick="deleteMessage(${message.id})">Delete</button>` : ''}
+    </div>
+  `).join('');
+
+  const html = `
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -54,14 +61,10 @@ app.get('/comunidade', async (req, res) => {
       <div class="adjustable-container">
         <h1>Messages</h1>
         <div id="messages">
-          ${messages.map(message => `
-            <div>
-              <strong>${message.User.username}:</strong> ${message.content}
-              ${userId === message.userId ? `<button onclick="deleteMessage(${message.id})">Delete</button>` : ''}
-            </div>
-          `).join('')}
+          ${messagesHtml}
         </div>
-        ${userId ? `<a href="/send">Send a new message</a>` : `
+        ${userId ? `<a href="/send">Send a new message</a>` : ''}
+        ${userId ? `<a href="/logout">Logout</a>` : `
           <h2>Login</h2>
           <form action="/login" method="post">
             <input type="text" name="username" placeholder="Username" required>
@@ -75,7 +78,6 @@ app.get('/comunidade', async (req, res) => {
             <button type="submit">Register</button>
           </form>
         `}
-        ${userId ? `<a href="/logout">Logout</a>` : ''}
       </div>
       <footer class="footer">
         <div class="container">
@@ -87,7 +89,6 @@ app.get('/comunidade', async (req, res) => {
           </div>
         </div>
       </footer>
-      <script src="/script.js"></script>
       <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -105,14 +106,22 @@ app.get('/comunidade', async (req, res) => {
       </script>
     </body>
     </html>
-  `);
+  `;
+
+  res.send(html);
+});
+
+// Rota para obter mensagens
+app.get('/api/messages', async (req, res) => {
+  const messages = await Message.findAll({ include: User });
+  res.json(messages);
 });
 
 app.post('/register', async (req, res) => {
   const { username, password } = req.body;
   const hash = await bcrypt.hash(password, 10);
   await User.create({ username, password: hash });
-  res.redirect('/');
+  res.redirect('/comunidade');
 });
 
 app.post('/login', passport.authenticate('local', {
@@ -123,7 +132,7 @@ app.post('/login', passport.authenticate('local', {
 app.get('/logout', (req, res, next) => {
   req.logout((err) => {
     if (err) { return next(err); }
-    res.redirect('/');
+    res.redirect('/comunidade');
   });
 });
 

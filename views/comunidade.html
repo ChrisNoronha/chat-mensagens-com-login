@@ -23,9 +23,7 @@
   </div>
   <div class="adjustable-container">
     <h1>Messages</h1>
-    <div id="messages">
-      <!-- As mensagens serão renderizadas aqui -->
-    </div>
+    <div id="messages"></div>
     <h2>Login</h2>
     <form action="/login" method="post">
       <input type="text" name="username" placeholder="Username" required>
@@ -49,11 +47,25 @@
       </div>
     </div>
   </footer>
-  <script src="/script.js"></script>
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      fetch('/api/messages')
+        .then(response => response.json())
+        .then(messages => {
+          const userId = "${req.isAuthenticated() ? req.user.id : null}";
+          const messagesDiv = document.getElementById('messages');
+          messagesDiv.innerHTML = messages.map(message => `
+            <div>
+              <strong>${message.User.username}:</strong> ${message.content}
+              ${message.User.id === userId ? `<button onclick="deleteMessage(${message.id})">Delete</button>` : ''}
+            </div>
+          `).join('');
+        });
+    });
+
     async function deleteMessage(id) {
       const res = await fetch('/message/' + id, {
         method: 'DELETE',
