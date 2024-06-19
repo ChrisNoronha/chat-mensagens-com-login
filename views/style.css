@@ -1,0 +1,320 @@
+/* cabeçalho(inicio) */
+header {
+    background: #88ab69;
+    color: #f0fff2;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.logo {
+    font-size: 25px;
+    color: #fff;
+    text-decoration: none;
+    text-align: center;
+    margin-right: 25px; 
+
+    
+}
+.logoimage {
+    font-size: 25px;
+    color: #fff;
+    text-decoration: none;
+    margin-left: 25px; 
+
+
+}
+/* cabeçalho(fim) */
+
+/* carrossel(inicio) */
+.nav { 
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    font-weight: bold; 
+
+
+}
+
+.carousel {
+    width: auto;
+    position: relative;
+    overflow: hidden;
+    height: 70%;
+    align-items: center;
+    margin-left: auto; 
+    margin-right: auto; 
+    background-size: cover;
+    object-fit: cover;
+}
+
+.slide {
+    display: none;
+}
+
+
+.slide img {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    height: auto;
+    align-items: center;
+
+}
+
+.prev,
+.next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.prev {
+    left: 10px;
+}
+
+.next {
+    right: 10px;
+}
+
+@media (min-width: 1500px) {
+    .custom-col {
+        max-width: 100%; 
+    }
+}
+
+.full-width-image {
+    width: 100%;
+    max-width: auto; 
+    height:60%;
+    position: relative;
+    overflow: hidden;
+    margin-left: auto; 
+    margin-right: auto; 
+}
+
+
+/* carousel(fim) */
+
+
+/* descrição, tópicos,titulos, containers(inicio) */
+
+.custom-title {
+    font-family:Open Sans;
+    color: #000000; 
+    font-size: 40px; 
+    font-weight: bold; 
+}
+
+.custom-subtitle {
+    font-family:Open Sans;
+    color: #000000; 
+    font-size: 30px; 
+    font-weight: bold; 
+}
+
+.custom-description {
+    color: #000000; 
+    font-size: 18px; 
+    margin-top: 20px; 
+    text-align: justify;
+
+}
+
+.adjustable-container {
+    width: auto;
+    max-width: 100%; 
+    margin-left: auto; 
+    margin-right: auto; 
+    padding: 20px; 
+    background: #f0fff2;
+    text-align: justify;
+    height: auto;
+}
+
+.adjustable-container2 {
+    width: auto;
+    max-width: 100%; 
+    margin-left: auto; 
+    margin-right: auto; 
+    padding: 20px; 
+    background: #f0fff2;
+    text-align: justify;
+    height: 430px;
+}
+
+.adjustable-container3 {
+    width: auto;
+    max-width: 100%; 
+    margin-left: auto; 
+    margin-right: auto; 
+    padding: 20px; 
+    background: #f0fff2;
+    text-align: justify;
+    height: 50px;
+}
+/* descrição, tópicos,titulos, containers(fim) */
+
+
+
+/* Menu de navegação (início) */
+.topnav {
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    background-color: #88ab69;
+    border-radius: 8px; 
+    width: 100%;
+    max-width: 1200px; 
+    margin: 0 auto;
+    overflow: hidden; 
+    font-weight: bold; 
+
+}
+
+.topnav a {
+    flex: 1; 
+    color: #f0fff2; 
+    text-align: center; 
+    padding: 14px 0; 
+    text-decoration: none; 
+    font-size: 15px;
+    border-right: 1px solid #f0fff2; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    box-sizing: border-box; 
+}
+
+.topnav a:first-child {
+    border-left: none; 
+}
+
+.topnav a:last-child {
+    border-right: none; 
+}
+
+/* cor do link com os mouses */
+.topnav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.topnav a.active {
+    background-color: #f0fff2;
+    color: white;
+}
+
+/* Menu de navegação (fim) */
+
+
+
+
+
+
+
+
+
+/* textos(inicio) */
+
+.gradient-text {
+    font-family:Open Sans;
+    font-size: 50px;
+    background: linear-gradient(to right, #1a471a 40%, #f20202 60%, #a89d00 40%); 
+    -webkit-background-clip: text; 
+    color: transparent; 
+}
+
+/* textos(fim) */
+
+/* rodapé(inicio) */
+
+
+
+.footer {
+    background-color: #88ab69;
+    color: #f0f1ff;
+    padding: 20px 0;
+    text-align: center;
+
+}
+/* rodapé(fim) */
+
+/* website configurações gerais(inicio) */
+.backgroundsite{
+    background-color: #88ab69;
+  
+}
+
+.custom-link {
+    color: #000000; 
+    font-size: 18px; 
+    margin-top: 20px; 
+    font-weight: bold; 
+}
+
+/* website configurações gerais(fim) */
+
+/* numero interativo */
+@property --num {
+  syntax: "<integer>";
+  initial-value: 1941;
+  inherits: false;
+}
+
+number {
+  transition: --num 5s;
+  counter-set: num var(--num);
+  font: 800 40px system-ui;
+}
+number::after {
+  content: counter(num);
+}
+number:hover {
+  --num: 2024;
+}
+
+/* numero interativo(fim) */
+
+
+/* Estilos para centralizar o player do YouTube */
+
+#player-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-height: 360px; 
+    overflow: hidden; 
+}
+
+/* Estilo para o vídeo dentro do contêiner */
+#player {
+    width: 100%; 
+    height: 100%; 
+}
+
+.slide {
+    width: 100%;
+    display: none;
+}
+
+.active {
+    display: block;
+}
+
+.carousel img {
+    width: 100%;
+    height: auto;
+}
+
+#copyButton {
+    display: block;
+    margin: 0 auto; /* Isso centraliza o botão horizontalmente */
+}
+/* Estilos para centralizar o player do YouTube(fim) */

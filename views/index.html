@@ -1,37 +1,151 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Messages</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wish ajuda humanitária</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+
+    </style>
 </head>
-<body>
-  <h1>Messages</h1>
-  <div id="messages"></div>
-  <form id="messageForm" method="POST" action="/message">
-    <input type="text" name="content" placeholder="Your message" required>
-    <button type="submit">Send</button>
-  </form>
-  <script>
-    async function loadMessages() {
-      const res = await fetch('/messages');
-      const messages = await res.json();
-      const messageDiv = document.getElementById('messages');
-      messageDiv.innerHTML = '';
-      messages.forEach(message => {
-        const div = document.createElement('div');
-        div.innerHTML = `<strong>${message.User.username}:</strong> ${message.content}`;
-        if (message.userId === <%= user ? user.id : 'null' %>) {
-          const deleteButton = document.createElement('button');
-          deleteButton.innerText = 'Delete';
-          deleteButton.onclick = async () => {
-            await fetch(`/message/${message.id}`, { method: 'DELETE' });
-            loadMessages();
-          };
-          div.appendChild(deleteButton);
-        }
-        messageDiv.appendChild(div);
-      });
-    }
-    loadMessages();
-  </script>
+<body class="backgroundsite">
+    <header>
+        <a href="#" class="logoimage"><img src="imagens/logowish.png" alt="Wish Logo" style="max-width: 20%; height: auto;"></a>
+        <nav class="nav">
+            <a href="https://www.estado.rs.gov.br/midia/imagem/qrcode-sos-rio-grande-do-sul-maio24-png" class="logo">AJUDE!</a>
+        </nav>
+    </header>
+
+ 
+    <div class="carousel" id="carousel1">
+        <div class="slide active">
+            <img src="imagens/carousel1/imagem1.jpg" alt="Imagem 1">
+        </div>
+        <div class="slide">
+            <img src="imagens/carousel1/imagem2.jpg" alt="Imagem 2">
+        </div>
+        <div class="slide">
+            <img src="imagens/carousel1/imagem3.jpg" alt="Imagem 3">
+        </div>
+        <div class="slide">
+            <img src="imagens/carousel1/imagem4.jpg" alt="Imagem 4">
+        </div>
+        <div class="slide">
+            <img src="imagens/carousel1/imagem5.jpg" alt="Imagem 5">
+        </div>
+        <div class="slide">
+            <img src="imagens/carousel1/imagem6.jpg" alt="Imagem 6">
+        </div>
+    </div>
+    
+    <!-- Menu navegação -->
+    <div class="topnav">
+        <a href="index.html">Início</a>
+        <a href="entenda.html">Entenda</a>
+        <a href="depoimentos.html">Depoimentos</a>
+        <a href="duvidas.html">Dúvidas</a>
+        <a href="comunidade.html">Comunidade</a>
+    </div>
+
+    <div class="adjustable-container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center custom-col">
+                <h2 class="custom-title"><p class="gradient-text">O Rio Grande do Sul</p> precisa da sua ajuda!</h2>
+                <p class="custom-description">Você mora próximo às cidades afetadas e gostaria de ajudar?
+                    Você pode se voluntariar pela Coordenadoria Estadual de Proteção e Defesa Civil do Rio Grande do Sul. Os voluntários atuam em tarefas de organização, seleção e triagem das doações de ajuda humanitária.
+                </p>
+                <br>
+                <p class="custom-description">
+                    O projeto <a href="https://www.uol.com.br/ecoa/ultimas-noticias/2024/05/08/como-ser-voluntario-voluntariado-rs-rio-grande-do-sul.htm" class="custom-link">Meu Lar de Volta</a> busca voluntários para ajudar na retomada da dignidade das pessoas, conectando quem precisa de ajuda com quem pode oferecer suporte nas áreas onde a água já baixou.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="adjustable-container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center custom-col">
+                <h2 class="custom-title">Você também pode ajudar a distância!</h2>
+                <p class="custom-description">Se você não está no Rio Grande do Sul, ainda pode ajudar de forma remota. Existem <a href="https://docs.google.com/document/d/1RIxXUGkTZvaN0ruDp4FYP51KtoqyshqVTox2iXUUcMg/edit?pli=1" class="custom-link">grupos de voluntários</a> que trabalham pelo computador ou celular, atualizando informações, confirmando resgates e colaborando com quem está no local.
+                </p>
+
+                <br>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="carousel" id="carousel2">
+        <div class="slide active">
+            <img src="imagens/carousel2/imagem1.jpg" alt="Imagem 1">
+        </div>
+        <div class="slide">
+            <img src="imagens/carousel2/imagem2.jpg" alt="Imagem 2">
+        </div>
+    </div>
+
+    <div class="adjustable-container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center custom-col">
+                <p class="custom-description">
+                    Você pode entregar suas doações em qualquer uma das mais de 10 mil agências dos Correios no Brasil. As peças serão transportadas gratuitamente para a Defesa Civil no Rio Grande do Sul.
+                </p>
+
+                <p class="custom-description">
+                    Diversos recursos são necessários nesse momomento, água, alimentos não perecíveis, ração, produtos íntimos, entre outros. Sua participação é importante, pois com as fortes chuvas e enchentes que danificaram diversos terrenos, o subsídio de muitas pessoas foi afetado. Sua ajuda seria essencial para reconstruir a vida dessas pessoas. 
+                </p>
+
+                <p class="custom-description">
+                    Os <a href="https://blog.correios.com.br/2024/05/16/doacoes-ao-rs-confira-novas-orientacoes-e-saiba-como-ajudar/" class="custom-link">Correios</a> estão recebendo doações de água, alimentos da cesta básica, ração para pets, material de limpeza seco e itens de higiene pessoal. Confira <a href="https://blog.correios.com.br/2024/05/16/doacoes-ao-rs-confira-novas-orientacoes-e-saiba-como-ajudar/" class="custom-link">a lista de produtos e os locais</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <img src="imagens/doacaors.jpg" alt="Imagem 1" class="full-width-image">
+    
+    <div class="adjustable-container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center custom-col">
+                <h2 class="custom-title">A sua ajuda financeira também é de suma importância!</h2>
+                <p class="custom-description">Se você não puder ajudar diretamente com suprimentos, ou com seus serviços, o <a href="https://sosenchentes.rs.gov.br/sobre-o-pix" class="custom-link">governo do Rio Grande do Sul</a> em conjunto com o governo federal estão angariando diariamente doações de dinheiro para a população. Sua contribuição é importante!
+                </p>
+                <br>
+                <p class="custom-description">
+                    Caso deseje ajudar de forma mais intimista, existem diversas <a href="https://www.vakinha.com.br/vaquinhas/explore?&location=Rio%20Grande%20do%20Sul&page=1" class="custom-link">vaquinhas online</a> feitas por diversas pessoas que estão tentando se reestruturar. Importante salientar que você precisa avaliar cada caso em específico para avaliar a veracidade do pedido.
+                </p>
+                <br>
+                <p class="custom-description">
+                    O mais importante é agir. 1 real, 50 reais, qualquer valor reunido pode fazer com que essas pessoas tenham uma vida melhor e mais esperançosa!
+                </p>
+                <p class="custom-description">Copie o número do CNPJ responsável pelas doações: <span id="myText">92.958.800/0001-38</span></p>
+                <button onclick="copyToClipboard()">Copiar</button>
+
+                <p class="custom-link">
+                    Segue abaixo a imagem com pix feito pelo <a href="https://www.estado.rs.gov.br/midia/imagem/qrcode-sos-rio-grande-do-sul-maio24-png" class="custom-link">Governo estadual</a>:
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <img src="imagens/Rio-Grande-do-Sul-pix.jpg" alt="Imagem 1" class="full-width-image">
+    
+    <footer class="footer">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 text-center">
+                    <p>© 2024 Wish. Todos os direitos reservados.</p>
+                    <p>Desenvolvido pelo gaúcho Christian Noronha Picoli</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="/script.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 </html>

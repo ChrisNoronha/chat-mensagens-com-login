@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wish ajuda humanitária</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos para centralizar o player do YouTube */
+        #player-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+        }
+    </style>
+</head>
+<body class="backgroundsite">
+    <header>
+        <a href="#" class="logoimage"><img src="imagens/logowish.png" alt="Wish Logo" style="max-width: 20%; height: auto;"></a>
+        <nav class="nav">
+            <a href="https://www.estado.rs.gov.br/midia/imagem/qrcode-sos-rio-grande-do-sul-maio24-png" class="logo">AJUDE!</a>
+        </nav>
+    </header>
+    
+    <div class="adjustable-container2">
+        
+        <div id="player-container">
+            <div id="player"></div>
+            
+    </div>
+        </div>
+    
+        <div class="adjustable-container3">
+        </div>
+    </div>
+    
+    <div class="topnav">
+        <a href="index.html">Início</a>
+        <a href="entenda.html">Entenda</a>
+        <a href="depoimentos.html">Depoimentos</a>
+        <a href="duvidas.html">Dúvidas</a>
+        <a href="comunidade.html">Comunidade</a>
+    </div>
+    
+
+    <div class="adjustable-container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center custom-col">
+                <h2 class="custom-title">  As enchentes de <number></number></h2>
+                <h2 class="custom-subtitle">O que aconteceu em 41?</h2>
+                <p class="custom-description">Durante 22 dias, entre abril e maio de 1941, as águas do Lago Guaíba atingiram uma cota de 4,76 metros, tornando-se a segunda maior enchente já registrada na cidade de Porto Alegre, superada apenas pela enchente de 2024.
+                    <br><br>
+                    A <a href="https://www.opovo.com.br/noticias/brasil/enchentes-no-rio-grande-do-sul-em-1941-e-1983.html" class="custom-link">enchente</a> atingiu todo o Rio Grande do Sul, mas Porto Alegre foi uma das cidades mais afetadas devido à sua posição geográfica nas margens do Lago Guaíba. A Região Hidrográfica do Guaíba cobre cerca de 1/3 da área do estado, e as chuvas dessa região escoam para o lago. Na época da enchente, a precipitação total foi de 791 milímetros.<br><br>
+                    
+                    Cerca de 70 mil habitantes ficaram desabrigados, quase um quarto da população de Porto Alegre na época. Empresas suspenderam suas atividades, e os prejuízos foram calculados em 50 milhões de dólares. Uma rede de solidariedade foi formada para ajudar os flagelados. Além disso, a mistura das águas com esgotos e outros resíduos levou à proliferação de doenças na população local.
+    </p>
+                <br>
+
+
+            </div>
+        </div>
+    </div>
+    <img src="imagens/entenda/1941.jpg" alt="Imagem 1" class="full-width-image">
+
+    <div class="adjustable-container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center custom-col">
+                <h2 class="custom-subtitle">O que levou à enchente atual?</h2>
+                <p class="custom-description">A enchente de 2024 causou estragos significativos em várias áreas do Rio Grande do Sul. <a href="https://g1.globo.com/rs/rio-grande-do-sul/noticia/2024/05/24/catastrofico-video-mostra-como-ficou-o-centro-de-mariante-vila-gaucha-varrida-pela-inundacao.ghtml" class="custom-link">Mariante</a>, um distrito à beira do Rio Taquari, foi particularmente afetado. Quase todas as 618 casas do distrito foram danificadas, e toda a infraestrutura sofreu impacto. A tragédia resultou em perda de vidas, pessoas desabrigadas e uma mobilização massiva da Defesa Civil para fornecer ajuda às vítimas.
+
+                    <br><br>
+Além do fenômeno climático <a href="https://gmconline.com.br/noticias/geral/grande-vilao-das-enchentes-el-nino-chega-ao-fim-o-que-esperar-do-la-nina-que-vem-ai/" class="custom-link">El Niño</a>, que causou aquecimento anormal das águas do oceano Pacífico, um “anticiclone” criou um bloqueio atmosférico na região, intensificando as chuvas. Até o momento, 147 pessoas perderam a vida, 127 estão desaparecidas e cerca de 500 mil tiveram que deixar suas casas. A comunidade se uniu para fornecer doações de água e alimentos, demonstrando solidariedade diante dessa catástrofe natural .<br><br>
+
+    </p>
+
+
+            </div>
+        </div>
+    </div>
+
+    <img src="imagens/entenda/enchente2024.jpg" alt="Imagem 1" class="full-width-image">
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 text-center">
+                    <p>© 2024 Wish. Todos os direitos reservados.</p>
+                    <p>Desenvolvido pelo gaúcho Christian Noronha Picoli</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Carrega a API do YouTube
+        var tag = document.createElement('script');
+        tag.src = 'https://www.youtube.com/iframe_api';
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        // Variável para armazenar a referência ao player
+        var player;
+
+        // Função chamada quando a API do YouTube é carregada
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '360', 
+                width: '640', 
+                videoId: 'b_N3rSNg6HQ', 
+                playerVars: {
+                    'autoplay': 0, 
+                    'controls': 1, 
+                    'rel': 1, 
+                    'showinfo': 1 
+                }
+            });
+        }
+    </script>
+</body>
+</html>
