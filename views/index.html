@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Messages</title>
+</head>
+<body>
+  <h1>Messages</h1>
+  <div id="messages"></div>
+  <form id="messageForm" method="POST" action="/message">
+    <input type="text" name="content" placeholder="Your message" required>
+    <button type="submit">Send</button>
+  </form>
+  <script>
+    async function loadMessages() {
+      const res = await fetch('/messages');
+      const messages = await res.json();
+      const messageDiv = document.getElementById('messages');
+      messageDiv.innerHTML = '';
+      messages.forEach(message => {
+        const div = document.createElement('div');
+        div.innerHTML = `<strong>${message.User.username}:</strong> ${message.content}`;
+        if (message.userId === <%= user ? user.id : 'null' %>) {
+          const deleteButton = document.createElement('button');
+          deleteButton.innerText = 'Delete';
+          deleteButton.onclick = async () => {
+            await fetch(`/message/${message.id}`, { method: 'DELETE' });
+            loadMessages();
+          };
+          div.appendChild(deleteButton);
+        }
+        messageDiv.appendChild(div);
+      });
+    }
+    loadMessages();
+  </script>
+</body>
+</html>
