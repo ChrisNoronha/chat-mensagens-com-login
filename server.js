@@ -11,15 +11,16 @@ const path = require('path');
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(session({ secret: 'secret', resave: false, saveUninitialized: false }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(express.static('views'));  // Adicione esta linha para servir arquivos estáticos na pasta views
+app.use(express.static(path.join(__dirname, 'views')));
 
 // Rota para a página principal
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'index.html'));
+  res.sendFile(path.join(__dirname, 'views', 'comunidade.html'));
 });
 
 // Rota para a página de comunidade
@@ -30,11 +31,14 @@ app.get('/comunidade', async (req, res) => {
   const messagesHtml = messages.map(message => `
     <div>
       <strong>${message.User.username}:</strong> ${message.content}
-      ${userId === message.userId ? `<button onclick="deleteMessage(${message.id})">Delete</button>` : ''}
+      ${userId === message.userId ? `
+        <button onclick="deleteMessage(${message.id})">Delete</button>
+        <button onclick="editMessage(${message.id}, '${message.content}')">Edit</button>
+      ` : ''}
     </div>
   `).join('');
 
-  const html = `
+  res.send(`
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -63,8 +67,11 @@ app.get('/comunidade', async (req, res) => {
         <div id="messages">
           ${messagesHtml}
         </div>
-        ${userId ? `<a href="/send">Send a new message</a>` : ''}
-        ${userId ? `<a href="/logout">Logout</a>` : `
+        ${userId ? `
+          <a href="/send">Send a new message</a>
+          <a href="/edit-profile">Edit Profile</a>
+          <a href="/logout">Logout</a>
+        ` : `
           <h2>Login</h2>
           <form action="/login" method="post">
             <input type="text" name="username" placeholder="Username" required>
@@ -75,6 +82,7 @@ app.get('/comunidade', async (req, res) => {
           <form action="/register" method="post">
             <input type="text" name="username" placeholder="Username" required>
             <input type="password" name="password" placeholder="Password" required>
+            <input type="password" name="confirmPassword" placeholder="Confirm Password" required>
             <button type="submit">Register</button>
           </form>
         `}
@@ -103,39 +111,32 @@ app.get('/comunidade', async (req, res) => {
             alert('Failed to delete message');
           }
         }
+
+        function editMessage(id, content) {
+          const newContent = prompt('Edit your message:', content);
+          if (newContent) {
+            fetch('/message/' + id, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ content: newContent }),
+            }).then(res => {
+              if (res.ok) {
+                window.location.reload();
+              } else {
+                alert('Failed to edit message');
+              }
+            });
+          }
+        }
       </script>
     </body>
     </html>
-  `;
-
-  res.send(html);
+  `);
 });
 
-// Rota para obter mensagens
-app.get('/api/messages', async (req, res) => {
-  const messages = await Message.findAll({ include: User });
-  res.json(messages);
-});
-
-app.post('/register', async (req, res) => {
-  const { username, password } = req.body;
-  const hash = await bcrypt.hash(password, 10);
-  await User.create({ username, password: hash });
-  res.redirect('/comunidade');
-});
-
-app.post('/login', passport.authenticate('local', {
-  successRedirect: '/comunidade',
-  failureRedirect: '/'
-}));
-
-app.get('/logout', (req, res, next) => {
-  req.logout((err) => {
-    if (err) { return next(err); }
-    res.redirect('/comunidade');
-  });
-});
-
+// Rota para a página de envio de mensagem
 app.get('/send', (req, res) => {
   if (req.isAuthenticated()) {
     res.sendFile(path.join(__dirname, 'views', 'send.html'));
@@ -153,6 +154,75 @@ app.post('/message', async (req, res) => {
   }
 });
 
+// Rota para a página de edição de perfil
+app.get('/edit-profile', (req, res) => {
+  if (req.isAuthenticated()) {
+    res.sendFile(path.join(__dirname, 'views', 'edit-profile.html'));
+  } else {
+    res.redirect('/comunidade');
+  }
+});
+
+app.post('/edit-profile', async (req, res) => {
+  if (req.isAuthenticated()) {
+    const { username, password, confirmPassword } = req.body;
+    if (password !== confirmPassword) {
+      return res.send('Passwords do not match');
+    }
+    const existingUser = await User.findOne({ where: { username } });
+    if (existingUser && existingUser.id !== req.user.id) {
+      return res.send('Username already taken');
+    }
+    const user = await User.findByPk(req.user.id);
+    user.username = username;
+    user.password = await bcrypt.hash(password, 10);
+    await user.save();
+    res.redirect('/comunidade');
+  } else {
+    res.redirect('/comunidade');
+  }
+});
+
+app.post('/register', async (req, res) => {
+  const { username, password, confirmPassword } = req.body;
+  if (password !== confirmPassword) {
+    return res.send('Passwords do not match');
+  }
+  const existingUser = await User.findOne({ where: { username } });
+  if (existingUser) {
+    return res.send('Username already exists');
+  }
+  const hash = await bcrypt.hash(password, 10);
+  await User.create({ username, password: hash });
+  res.redirect('/comunidade');
+});
+
+app.post('/login', (req, res, next) => {
+  passport.authenticate('local', (err, user, info) => {
+    if (err) { return next(err); }
+    if (!user) { return res.redirect('/'); }
+    req.logIn(user, (err) => {
+      if (err) { return next(err); }
+      return res.redirect('/comunidade');
+    });
+  })(req, res, next);
+});
+
+app.put('/message/:id', async (req, res) => {
+  if (req.isAuthenticated()) {
+    const message = await Message.findByPk(req.params.id);
+    if (message.userId === req.user.id) {
+      message.content = req.body.content;
+      await message.save();
+      res.send('Message updated.');
+    } else {
+      res.status(403).send('You can only edit your own messages.');
+    }
+  } else {
+    res.status(401).send('You need to be logged in to edit a message.');
+  }
+});
+
 app.delete('/message/:id', async (req, res) => {
   if (req.isAuthenticated()) {
     const message = await Message.findByPk(req.params.id);
@@ -167,7 +237,16 @@ app.delete('/message/:id', async (req, res) => {
   }
 });
 
-app.get('/messages', async (req, res) => {
+// Rota de logout
+app.get('/logout', (req, res, next) => {
+  req.logout(err => {
+    if (err) { return next(err); }
+    res.redirect('/comunidade');
+  });
+});
+
+// Rota para obter mensagens
+app.get('/api/messages', async (req, res) => {
   const messages = await Message.findAll({ include: User });
   res.json(messages);
 });
